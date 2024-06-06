@@ -1,6 +1,6 @@
 const sheetId = '1rDRSo0T_I7QHrLP-zFoLyce8UZi9vXlijbkmwsg6Lh4'; // Remplacez par l'ID de votre feuille de calcul
 const sheetName = 'Feuille'; // Remplacez par le nom de votre feuille
-const apiKey = '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'; // Remplacez par votre clé API
+const apiKey = 'AIzaSyCOaxmvlgi-kDPp4auYYpG4cHjauU_kVWY'; // Remplacez par votre clé API
 const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
 
 // Récupération des données depuis Google Sheets
