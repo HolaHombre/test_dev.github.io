@@ -15,6 +15,68 @@ fetch(url)
     displayResults(content, headers);
   });
 
+
+document.getElementById('searchForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  console.log('Form submitted');
+
+  const criteria = {
+    duration: document.getElementById('duration').value,
+    ageRange: document.getElementById('ageRange').value,
+    gauge: document.getElementById('gauge').value,
+    numberOnStage: document.getElementById('numberOnStage').value,
+    genre: document.getElementById('genre').value
+  };
+
+  console.log('Criteria:', criteria);
+
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Data received:', data);
+      const rows = data.values;
+      const headers = rows[0];
+      const content = rows.slice(1);
+
+      const filteredContent = content.filter(row => {
+        return (!criteria.duration || row[2] === criteria.duration) &&
+               (!criteria.ageRange || row[3] === criteria.ageRange) &&
+               (!criteria.gauge || row[4] === criteria.gauge) &&
+               (!criteria.numberOnStage || row[5] === criteria.numberOnStage) &&
+               (!criteria.genre || row[7].includes(criteria.genre));
+      });
+
+      displayResults(filteredContent, headers);
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
+});
+
+function displayResults(content, headers) {
+  const resultsContainer = document.getElementById('results');
+  resultsContainer.innerHTML = '';
+
+  content.forEach(row => {
+    const resultItem = document.createElement('div');
+    resultItem.className = 'result-item';
+
+    headers.forEach((header, index) => {
+      const info = document.createElement('p');
+      info.innerText = `${header}: ${row[index]}`;
+      resultItem.appendChild(info);
+    });
+
+    resultsContainer.appendChild(resultItem);
+  });
+}
+
+
 function displayResults(content, headers) {
   const resultsContainer = document.getElementById('results');
   resultsContainer.innerHTML = '';
