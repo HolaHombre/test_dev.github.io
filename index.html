@@ -11,6 +11,7 @@
      const apiKey = 'AIzaSyCOaxmvlgi-kDPp4auYYpG4cHjauU_kVWY'; // Remplacez par votre clé API
      const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
 
+
       console.log('URL:', url);
 
       document.getElementById('searchForm').addEventListener('submit', function(e) {
@@ -41,6 +42,9 @@
             const headers = rows[0];
             const content = rows.slice(1);
 
+            console.log('Headers:', headers);
+            console.log('Content:', content);
+
             const filteredContent = content.filter(row => {
               return (!criteria.duration || row[2] === criteria.duration) &&
                      (!criteria.ageRange || row[3] === criteria.ageRange) &&
@@ -48,6 +52,8 @@
                      (!criteria.numberOnStage || row[5] === criteria.numberOnStage) &&
                      (!criteria.genre || row[7].includes(criteria.genre));
             });
+
+            console.log('Filtered Content:', filteredContent);
 
             displayResults(filteredContent, headers);
           })
