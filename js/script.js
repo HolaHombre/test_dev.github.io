@@ -32,6 +32,7 @@ document.getElementById('searchForm').addEventListener('submit', function(e) {
 
   fetch(url)
     .then(response => {
+      console.log('Response status:', response.status);
       if (!response.ok) {
         throw new Error('Network response was not ok ' + response.statusText);
       }
@@ -43,13 +44,24 @@ document.getElementById('searchForm').addEventListener('submit', function(e) {
       const headers = rows[0];
       const content = rows.slice(1);
 
+      console.log('Headers:', headers);
+      console.log('Content:', content);
+
       const filteredContent = content.filter(row => {
-        return (!criteria.duration || row[2] === criteria.duration) &&
-               (!criteria.ageRange || row[3] === criteria.ageRange) &&
-               (!criteria.gauge || row[4] === criteria.gauge) &&
-               (!criteria.numberOnStage || row[5] === criteria.numberOnStage) &&
-               (!criteria.genre || row[7].includes(criteria.genre));
+        console.log('Checking row:', row);
+
+        const matchDuration = !criteria.duration || row[3] === criteria.duration;
+        const matchAgeRange = !criteria.ageRange || row[4] === criteria.ageRange;
+        const matchGauge = !criteria.gauge || row[5] === criteria.gauge;
+        const matchNumberOnStage = !criteria.numberOnStage || row[6] === criteria.numberOnStage;
+        const matchGenre = !criteria.genre || (row[8] && row[8].includes(criteria.genre));
+
+        console.log(`matchDuration: ${matchDuration}, matchAgeRange: ${matchAgeRange}, matchGauge: ${matchGauge}, matchNumberOnStage: ${matchNumberOnStage}, matchGenre: ${matchGenre}`);
+
+        return matchDuration && matchAgeRange && matchGauge && matchNumberOnStage && matchGenre;
       });
+
+      console.log('Filtered Content:', filteredContent);
 
       displayResults(filteredContent, headers);
     })
@@ -57,6 +69,7 @@ document.getElementById('searchForm').addEventListener('submit', function(e) {
       console.error('Error fetching data:', error);
     });
 });
+
 
 function displayResults(content, headers) {
   const resultsContainer = document.getElementById('results');
