@@ -132,24 +132,17 @@
 
   <div id="results"></div>
 
+ <div id="typeform-embed" style="width: 100%; height: 500px;"></div>
 
- <div class="typeform-widget" data-url="https://f7ygynueg7y.typeform.com/to/akRQ92c3" style="width: 100%; height: 500px;"></div>
     <script>
-        (function() {
-            var qs, js, q, s, d = document,
-                gi = d.getElementById,
-                ce = d.createElement,
-                gt = d.getElementsByTagName,
-                id = "typef_orm",
-                b = "https://embed.typeform.com/";
-            if (!gi.call(d, id)) {
-                js = ce.call(d, "script");
-                js.id = id;
-                js.src = b + "embed.js";
-                q = gt.call(d, "script")[0];
-                q.parentNode.insertBefore(js, q)
-            }
-        })()
+        window.onload = function() {
+            // Insérez votre URL Typeform ici
+            var typeformURL = "https://f7ygynueg7y.typeform.com/to/akRQ92c3";
+            
+            // Configuration de l'embed
+            var typeformEmbed = document.getElementById('typeform-embed');
+            typeformEmbed.innerHTML = '<iframe src="' + typeformURL + '" width="100%" height="100%" frameborder="0" allow="camera; microphone; autoplay; encrypted-media;"></iframe>';
+        }
     </script>
 
   
