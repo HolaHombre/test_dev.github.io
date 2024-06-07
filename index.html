@@ -51,7 +51,7 @@
               const matchAgeRange = !criteria.ageRange || row[3] === criteria.ageRange;
               const matchGauge = !criteria.gauge || row[4] === criteria.gauge;
               const matchNumberOnStage = !criteria.numberOnStage || row[5] === criteria.numberOnStage;
-              const matchGenre = !criteria.genre || row[7] && row[7].includes(criteria.genre);
+              const matchGenre = !criteria.genre || (row[7] && row[7].includes(criteria.genre));
 
               console.log(`matchDuration: ${matchDuration}, matchAgeRange: ${matchAgeRange}, matchGauge: ${matchGauge}, matchNumberOnStage: ${matchNumberOnStage}, matchGenre: ${matchGenre}`);
 
