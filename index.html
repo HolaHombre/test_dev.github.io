@@ -47,6 +47,7 @@
 
             const filteredContent = content.filter(row => {
               console.log('Checking row:', row);
+
               const matchDuration = !criteria.duration || row[2] === criteria.duration;
               const matchAgeRange = !criteria.ageRange || row[3] === criteria.ageRange;
               const matchGauge = !criteria.gauge || row[4] === criteria.gauge;
@@ -55,7 +56,7 @@
 
               console.log(`matchDuration: ${matchDuration}, matchAgeRange: ${matchAgeRange}, matchGauge: ${matchGauge}, matchNumberOnStage: ${matchNumberOnStage}, matchGenre: ${matchGenre}`);
 
-              return matchDuration && matchAgeRange && matchGauge && matchNumberOnStage && matchGenre;
+              return matchDuration || matchAgeRange || matchGauge || matchNumberOnStage || matchGenre;
             });
 
             console.log('Filtered Content:', filteredContent);
