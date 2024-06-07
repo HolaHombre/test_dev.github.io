@@ -44,19 +44,20 @@
             console.log('Headers:', headers);
             console.log('Content:', content);
 
-            const filteredContent = content.filter(row => {
-              console.log('Checking row:', row);
+           const filteredContent = content.filter(row => {
+  console.log('Checking row:', row);
 
-              const matchDuration = criteria.duration && row[3] === criteria.duration;
-              const matchAgeRange = criteria.ageRange && row[4] === criteria.ageRange;
-              const matchGauge = criteria.gauge && row[5] === criteria.gauge;
-              const matchNumberOnStage = criteria.numberOnStage && row[6] === criteria.numberOnStage;
-              const matchGenre = criteria.genre && row[8] && row[8].includes(criteria.genre);
+  const matchDuration = !criteria.duration || row[3] === criteria.duration;
+  const matchAgeRange = !criteria.ageRange || row[4] === criteria.ageRange;
+  const matchGauge = !criteria.gauge || row[5] === criteria.gauge;
+  const matchNumberOnStage = !criteria.numberOnStage || row[6] === criteria.numberOnStage;
+  const matchGenre = !criteria.genre || (row[8] && row[8].includes(criteria.genre));
 
-              console.log(`matchDuration: ${matchDuration}, matchAgeRange: ${matchAgeRange}, matchGauge: ${matchGauge}, matchNumberOnStage: ${matchNumberOnStage}, matchGenre: ${matchGenre}`);
+  console.log(`matchDuration: ${matchDuration}, matchAgeRange: ${matchAgeRange}, matchGauge: ${matchGauge}, matchNumberOnStage: ${matchNumberOnStage}, matchGenre: ${matchGenre}`);
 
-              return matchDuration || matchAgeRange || matchGauge || matchNumberOnStage || matchGenre;
-            });
+  return matchDuration && matchAgeRange && matchGauge && matchNumberOnStage && matchGenre;
+});
+
 
             console.log('Filtered Content:', filteredContent);
 
