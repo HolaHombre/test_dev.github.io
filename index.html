@@ -46,11 +46,16 @@
             console.log('Content:', content);
 
             const filteredContent = content.filter(row => {
-              return (!criteria.duration || row[2] === criteria.duration) &&
-                     (!criteria.ageRange || row[3] === criteria.ageRange) &&
-                     (!criteria.gauge || row[4] === criteria.gauge) &&
-                     (!criteria.numberOnStage || row[5] === criteria.numberOnStage) &&
-                     (!criteria.genre || row[7].includes(criteria.genre));
+              console.log('Checking row:', row);
+              const matchDuration = !criteria.duration || row[2] === criteria.duration;
+              const matchAgeRange = !criteria.ageRange || row[3] === criteria.ageRange;
+              const matchGauge = !criteria.gauge || row[4] === criteria.gauge;
+              const matchNumberOnStage = !criteria.numberOnStage || row[5] === criteria.numberOnStage;
+              const matchGenre = !criteria.genre || row[7] && row[7].includes(criteria.genre);
+
+              console.log(`matchDuration: ${matchDuration}, matchAgeRange: ${matchAgeRange}, matchGauge: ${matchGauge}, matchNumberOnStage: ${matchNumberOnStage}, matchGenre: ${matchGenre}`);
+
+              return matchDuration && matchAgeRange && matchGauge && matchNumberOnStage && matchGenre;
             });
 
             console.log('Filtered Content:', filteredContent);
@@ -66,6 +71,11 @@
         const resultsContainer = document.getElementById('results');
         resultsContainer.innerHTML = '';
 
+        if (content.length === 0) {
+          resultsContainer.innerText = 'Aucun résultat trouvé';
+          return;
+        }
+
         content.forEach(row => {
           const resultItem = document.createElement('div');
           resultItem.className = 'result-item';
@@ -78,6 +88,8 @@
 
           resultsContainer.appendChild(resultItem);
         });
+
+        console.log('Results displayed in:', resultsContainer);
       }
     });
   </script>
