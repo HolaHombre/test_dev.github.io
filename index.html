@@ -4,6 +4,77 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recherche de Spectacles</title>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+     const sheetId = '1rDRSo0T_I7QHrLP-zFoLyce8UZi9vXlijbkmwsg6Lh4'; // Remplacez par l'ID de votre feuille de calcul
+     const sheetName = 'Feuille'; // Remplacez par le nom de votre feuille
+     const apiKey = 'AIzaSyCOaxmvlgi-kDPp4auYYpG4cHjauU_kVWY'; // Remplacez par votre clé API
+     const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
+
+      console.log('URL:', url);
+
+      document.getElementById('searchForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        console.log('Form submitted');
+
+        const criteria = {
+          duration: document.getElementById('duration').value,
+          ageRange: document.getElementById('ageRange').value,
+          gauge: document.getElementById('gauge').value,
+          numberOnStage: document.getElementById('numberOnStage').value,
+          genre: document.getElementById('genre').value
+        };
+
+        console.log('Criteria:', criteria);
+
+        fetch(url)
+          .then(response => {
+            console.log('Response status:', response.status);
+            if (!response.ok) {
+              throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log('Data received:', data);
+            const rows = data.values;
+            const headers = rows[0];
+            const content = rows.slice(1);
+
+            const filteredContent = content.filter(row => {
+              return (!criteria.duration || row[2] === criteria.duration) &&
+                     (!criteria.ageRange || row[3] === criteria.ageRange) &&
+                     (!criteria.gauge || row[4] === criteria.gauge) &&
+                     (!criteria.numberOnStage || row[5] === criteria.numberOnStage) &&
+                     (!criteria.genre || row[7].includes(criteria.genre));
+            });
+
+            displayResults(filteredContent, headers);
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+          });
+      });
+
+      function displayResults(content, headers) {
+        const resultsContainer = document.getElementById('results');
+        resultsContainer.innerHTML = '';
+
+        content.forEach(row => {
+          const resultItem = document.createElement('div');
+          resultItem.className = 'result-item';
+
+          headers.forEach((header, index) => {
+            const info = document.createElement('p');
+            info.innerText = `${header}: ${row[index]}`;
+            resultItem.appendChild(info);
+          });
+
+          resultsContainer.appendChild(resultItem);
+        });
+      }
+    });
+  </script>
 </head>
 <body>
   <form id="searchForm">
@@ -26,6 +97,5 @@
   </form>
 
   <div id="results"></div>
-   <script src="js/script.js"></script>
 </body>
 </html>
