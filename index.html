@@ -11,8 +11,7 @@
      const apiKey = 'AIzaSyCOaxmvlgi-kDPp4auYYpG4cHjauU_kVWY'; // Remplacez par votre clé API
      const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
 
-
-      console.log('URL:', url);
+  console.log('URL:', url);
 
       document.getElementById('searchForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -48,11 +47,11 @@
             const filteredContent = content.filter(row => {
               console.log('Checking row:', row);
 
-              const matchDuration = !criteria.duration || row[2] === criteria.duration;
-              const matchAgeRange = !criteria.ageRange || row[3] === criteria.ageRange;
-              const matchGauge = !criteria.gauge || row[4] === criteria.gauge;
-              const matchNumberOnStage = !criteria.numberOnStage || row[5] === criteria.numberOnStage;
-              const matchGenre = !criteria.genre || (row[7] && row[7].includes(criteria.genre));
+              const matchDuration = criteria.duration && row[3] === criteria.duration;
+              const matchAgeRange = criteria.ageRange && row[4] === criteria.ageRange;
+              const matchGauge = criteria.gauge && row[5] === criteria.gauge;
+              const matchNumberOnStage = criteria.numberOnStage && row[6] === criteria.numberOnStage;
+              const matchGenre = criteria.genre && row[8] && row[8].includes(criteria.genre);
 
               console.log(`matchDuration: ${matchDuration}, matchAgeRange: ${matchAgeRange}, matchGauge: ${matchGauge}, matchNumberOnStage: ${matchNumberOnStage}, matchGenre: ${matchGenre}`);
 
